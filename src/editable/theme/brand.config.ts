@@ -7,13 +7,19 @@ const productKind = getProductKind(recipe)
 
 export const slot4BrandConfig = {
   siteName: siteIdentity.name,
-  tagline: siteIdentity.tagline,
+  tagline: 'Precision-cut metal signs, panels, and branded fixtures',
   domain: siteIdentity.domain,
   baseUrl: siteIdentity.url,
   productKind,
   ogImage: siteIdentity.ogImage,
   accents: {
-    primary: '#d32323',
-    surface: '#ffffff',
+    primary: '#9B0F06',
+    secondary: '#D53E0F',
+    surface: '#EED9B9',
+    ink: '#5E0006',
+  },
+  voice: {
+    audience: 'design-led shops, builders, fabricators, and local businesses',
+    tone: 'confident, crafted, practical, image-forward',
   },
 } as const
