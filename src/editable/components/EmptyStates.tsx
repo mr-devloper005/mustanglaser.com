@@ -11,20 +11,20 @@ type EmptyStateProps = {
 }
 
 export function EmptyState({
-  title = 'Nothing published here yet',
-  description = 'Fresh posts will appear here automatically once this section has published content.',
+  title = 'Nothing is published here yet',
+  description = 'New gallery entries or profile pages will appear automatically once content is available.',
   actionLabel = 'Back to home',
   actionHref = '/',
   className,
 }: EmptyStateProps) {
   return (
-    <section className={cn('rounded-[2rem] border border-current/10 bg-current/[0.03] p-8 text-center', className)}>
-      <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-current/10">
-        <SearchX className="h-6 w-6" />
+    <section className={cn('rounded-[2rem] border border-dashed border-[var(--editable-border)] bg-[var(--slot4-surface-bg)] p-8 text-center shadow-[0_20px_50px_rgba(94,0,6,0.06)]', className)}>
+      <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[var(--slot4-accent-soft)] text-[var(--slot4-accent)]">
+        <SearchX className="h-7 w-7" />
       </div>
-      <h2 className="mt-5 text-2xl font-semibold tracking-[-0.03em]">{title}</h2>
-      <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-current/65">{description}</p>
-      <Link href={actionHref} className="mt-6 inline-flex items-center gap-2 rounded-full border border-current/15 px-5 py-3 text-sm font-semibold transition hover:bg-current hover:text-background">
+      <h2 className="editable-display mt-5 text-3xl font-semibold tracking-[-0.05em]">{title}</h2>
+      <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-[var(--slot4-muted-text)]">{description}</p>
+      <Link href={actionHref} className="mt-6 inline-flex items-center gap-2 rounded-full bg-[var(--slot4-accent)] px-5 py-3 text-xs font-semibold uppercase tracking-[0.16em] text-[var(--slot4-on-accent)] transition hover:-translate-y-0.5">
         {actionLabel}
         <ArrowRight className="h-4 w-4" />
       </Link>
@@ -37,7 +37,7 @@ export function TaskEmptyState({ taskLabel = 'posts', className }: { taskLabel?:
     <EmptyState
       className={className}
       title={`No ${taskLabel} available yet`}
-      description={`Published ${taskLabel} from the master panel will appear here automatically. The page layout stays ready even when the feed is empty.`}
+      description={`Published ${taskLabel} will appear here automatically once this section has content.`}
       actionLabel="Explore the site"
       actionHref="/"
     />
@@ -49,7 +49,7 @@ export function ContactSuccessState({ className }: { className?: string }) {
     <EmptyState
       className={className}
       title="Message received"
-      description="Thanks for reaching out. Your request has been saved and routed through the contact workflow."
+      description="Your note has been saved and routed through the contact workflow."
       actionLabel="Return home"
       actionHref="/"
     />
