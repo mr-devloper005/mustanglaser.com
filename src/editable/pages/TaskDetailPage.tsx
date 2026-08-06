@@ -51,6 +51,10 @@ function getBody(post: SitePost) {
   return asText(content.body) || asText(content.description) || asText(content.details) || post.summary || 'Details will appear here once available.'
 }
 
+function comparable(value: string) {
+  return value.replace(/<\/?[^>]+>/g, ' ').toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim()
+}
+
 function escapeHtml(value: string) {
   return value
     .replace(/&/g, '&amp;')
@@ -240,6 +244,8 @@ export function TaskDetailView({
   const email = getField(post, ['email'])
   const location = getField(post, ['location', 'address', 'city'])
   const intro = getEditableExcerpt(post, 220)
+  const introKey = intro ? comparable(intro) : ''
+  const showIntro = introKey && !comparable(getBody(post)).includes(introKey)
 
   return (
     <EditableSiteShell>
@@ -255,7 +261,7 @@ export function TaskDetailView({
                 <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[var(--tk-accent)]">{getEditableCategory(post)}</p>
                 <h1 className="editable-display mt-4 text-4xl font-semibold leading-[0.94] tracking-[-0.07em] sm:text-5xl lg:text-6xl">{post.title || 'Untitled entry'}</h1>
                 <p className="mt-4 text-sm font-medium uppercase tracking-[0.16em] text-[var(--tk-muted)]">{getEditableAuthor(post)}</p>
-                {intro ? <p className="mt-5 max-w-2xl text-base leading-8 text-[var(--tk-muted)]">{intro}</p> : null}
+                {showIntro ? <p className="mt-5 max-w-2xl text-base leading-8 text-[var(--tk-muted)]">{intro}</p> : null}
                 <div className="mt-6 flex flex-wrap gap-2.5">
                   <DetailMetaPill label="Updated" value={getEditableDate(post)} />
                   <DetailMetaPill label="Maker" value={location || getEditableAuthor(post)} />
@@ -265,17 +271,19 @@ export function TaskDetailView({
             </div>
           </div>
 
-          <div className="mt-8 grid gap-8 xl:grid-cols-[minmax(0,1fr)_320px]">
-            <article className="min-w-0 self-start rounded-[2rem] border border-[var(--tk-line)] bg-[var(--tk-surface)] p-6 shadow-[0_24px_60px_rgba(94,0,6,0.08)] sm:p-8 lg:p-10">
-              <BodyContent post={post} compact={task === 'image'} />
-              {task === 'article' ? <EditableArticleComments slug={post.slug} comments={comments} /> : null}
-            </article>
+          {task !== 'profile' && (
+            <div className="mt-8 grid gap-8 xl:grid-cols-[minmax(0,1fr)_320px]">
+              <article className="min-w-0 self-start rounded-[2rem] border border-[var(--tk-line)] bg-[var(--tk-surface)] p-6 shadow-[0_24px_60px_rgba(94,0,6,0.08)] sm:p-8 lg:p-10">
+                <BodyContent post={post} compact={task === 'image'} />
+                {task === 'article' ? <EditableArticleComments slug={post.slug} comments={comments} /> : null}
+              </article>
 
-            <aside className="space-y-5 xl:sticky xl:top-24 xl:self-start">
-              <MetadataRail post={post} task={task} />
-              {related.length ? <RelatedPanel task={task} related={related} /> : null}
-            </aside>
-          </div>
+              <aside className="space-y-5 xl:sticky xl:top-24 xl:self-start">
+                <MetadataRail post={post} task={task} />
+                {related.length ? <RelatedPanel task={task} related={related} /> : null}
+              </aside>
+            </div>
+          )}
         </section>
 
         {related.length ? <RelatedStrip task={task} related={related} /> : null}
