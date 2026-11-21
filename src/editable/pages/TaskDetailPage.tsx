@@ -7,7 +7,7 @@ import { getTaskConfig, type TaskKey } from '@/lib/site-config'
 import type { SitePost } from '@/lib/site-connector'
 import { EditableSiteShell } from '@/editable/shell/EditableSiteShell'
 import { EditableArticleComments } from '@/editable/components/EditableArticleComments'
-import { EditorialPostCard, HorizontalPostCard, ImageFirstPostCard, getEditableAuthor, getEditableCategory, getEditableDate, getEditableExcerpt, getEditablePostImage } from '@/editable/cards/PostCards'
+import { EditorialPostCard, HorizontalPostCard, ImageFirstPostCard, getEditableAuthor, getEditableCategory, getEditableExcerpt, getEditablePostImage } from '@/editable/cards/PostCards'
 import { taskThemeStyle } from '@/editable/theme/task-themes'
 
 export const revalidate = 3
@@ -216,10 +216,6 @@ function MetadataRail({ post, task }: { post: SitePost; task: TaskKey }) {
         <p className="mt-2 text-sm font-medium">{getEditableCategory(post)}</p>
       </div>
       <div className="rounded-[1.4rem] border border-[var(--tk-line)] bg-[var(--tk-surface)] p-5 shadow-[0_14px_36px_rgba(94,0,6,0.05)]">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--tk-accent)]">Updated</p>
-        <p className="mt-2 text-sm font-medium">{getEditableDate(post)}</p>
-      </div>
-      <div className="rounded-[1.4rem] border border-[var(--tk-line)] bg-[var(--tk-surface)] p-5 shadow-[0_14px_36px_rgba(94,0,6,0.05)]">
         <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--tk-accent)]">{task === 'profile' ? 'Maker' : 'Contact cue'}</p>
         <p className="mt-2 text-sm font-medium">{location || getEditableAuthor(post)}</p>
       </div>
@@ -263,7 +259,6 @@ export function TaskDetailView({
                 <p className="mt-4 text-sm font-medium uppercase tracking-[0.16em] text-[var(--tk-muted)]">{getEditableAuthor(post)}</p>
                 {showIntro ? <p className="mt-5 max-w-2xl text-base leading-8 text-[var(--tk-muted)]">{intro}</p> : null}
                 <div className="mt-6 flex flex-wrap gap-2.5">
-                  <DetailMetaPill label="Updated" value={getEditableDate(post)} />
                   <DetailMetaPill label="Maker" value={location || getEditableAuthor(post)} />
                 </div>
                 <DetailActions website={website} phone={phone} email={email} />
